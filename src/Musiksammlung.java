@@ -9,30 +9,51 @@ import java.io.*;
 
 public class Musiksammlung {
 
-    ArrayList<Song> musiksammlung = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
+    static ArrayList<Song> musiksammlung = new ArrayList<>();
+    static Scanner scanner = new Scanner(System.in);
 
     public static void main (String [] args) {
 
         while (true) {
-            System.out.println();
-
+            System.out.println("""
+                    Willkommen bei Musiksammlung.
+                    Für einen Song hier er Sammlung hinzuzufügen "add" eingeben.
+                    Für einen Song aus hier Sammlung zu entfernen "remove" eingeben.
+                    Für das  anzeigen hier Sammlung "show" eingeben.
+                    Für speicher der Sammlung "save" eingeben.
+                    Für die Suche nach Interpret "artist" eingeben.
+                    Für die Suche nach Titel "titel" eingeben.
+                    Zum Beenden "quit" eingeben.
+                    """);
+            String zustand = scanner.nextLine();
+            switch (zustand) {
+                case "add" -> addSong();
+                case "remove" -> removeSong();
+                case "show" -> printMusiksammlung();
+                case "save" -> writeToFile();
+                case "artist" -> searchInterpret();
+                case "titel" -> searchTitel();
+                case "quit" -> System.exit(0);
+                default -> System.out.println("FALSCHE EINGABE");
+            }
         }
 
     }
 
-    public void removeSong() {
+    public static void removeSong() {
+        printMusiksammlung();
+        System.out.println("Was für ein Song soll entfernt werden nur Zahl eingeben");
         int index = scanner.nextInt(-1);
         musiksammlung.remove(index);
     }
 
-    public void getMusiksammlung() {
+    public static void printMusiksammlung() {
         for (int i = 0; i < musiksammlung.size(); i++) {
-            System.out.println("Titel: " + musiksammlung.get(i).getTitel() + "Interpret: " + musiksammlung.get(i).getInterpret());
+            System.out.println(i+1 + " " +"Titel: " + musiksammlung.get(i).getTitel() + " " +"Interpret: " + musiksammlung.get(i).getInterpret());
         }
     }
 
-    public void addSong () {
+    public static void addSong() {
         System.out.println("Gib den Interpret ein: ");
         String interpret = scanner.nextLine();
         System.out.println("Gib den Musik Titel ein: ");
@@ -43,12 +64,12 @@ public class Musiksammlung {
         musiksammlung.add(song);
     }
 
-    private void writeToFile () {
-        String path = "C:\\Users\\BBRZ\\IdeaProjects\\SongArrayList\\src";
+    private static void writeToFile () {
+        String path = "C:\\Users\\BBRZ\\IdeaProjects\\SongArrayList\\src\\musiksammlung.txt";
         try {
             FileWriter writeDate = new FileWriter(path);
-            for (int i = 0; i < musiksammlung.size(); i++) {
-                writeDate.write(musiksammlung.get(i).getTitel() + "," + musiksammlung.get(i).getInterpret() + "\n");
+            for (Song song : musiksammlung) {
+                writeDate.write(song.getTitel() + "," + song.getInterpret() + "\n");
             }
             writeDate.close();
             System.out.println("Die Datei wurde Erfolgreich erstellt");
@@ -58,22 +79,22 @@ public class Musiksammlung {
         }
     }
 
-    private void searchInterpret () {
+    private static void searchInterpret () {
         System.out.println("Geben sie für die Suche den Interpreten ein: ");
         String interpret = scanner.nextLine();
-        for (int i = 0; i < musiksammlung.size(); i++) {
-            if (musiksammlung.get(i).getInterpret().equals(interpret)) {
-                System.out.println("Interpret: " + musiksammlung.get(i).getInterpret());
+        for (Song song : musiksammlung) {
+            if (song.getInterpret().equals(interpret)) {
+                System.out.println("Titel: " + song.getTitel() + "Interpret: " + interpret);
             }
         }
     }
 
-    private void searchTitel () {
+    private static void searchTitel () {
         System.out.println("Geben sie für die Suche den Titel ein: ");
         String titel = scanner.nextLine();
-        for (int i = 0; i < musiksammlung.size(); i++) {
-            if (musiksammlung.get(i).getTitel().equals(titel)) {
-                System.out.println("Titel: " + musiksammlung.get(i).getTitel());
+        for (Song song : musiksammlung) {
+            if (song.getTitel().equals(titel)) {
+                System.out.println("Titel: " + titel + "Interpret: " + song.getInterpret());
             }
         }
     }
