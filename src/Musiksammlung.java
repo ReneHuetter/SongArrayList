@@ -17,7 +17,7 @@ public class Musiksammlung {
 
     public static void main (String [] args) {
 
-        readFile();
+        ReadFile.readFile();
 
         while (true) {
             System.out.println("""
@@ -101,24 +101,5 @@ public class Musiksammlung {
                 System.out.println("Titel: " + titel + "Interpret: " + song.getInterpret());
             }
         }
-    }
-
-    private static void readFile () {
-        try (BufferedReader fileRead = new BufferedReader(new FileReader(path))) {
-          String zeile;
-          while ((zeile = fileRead.readLine()) != null) {
-              zeile = zeile.replace("\n" , "");
-              String[] temp = zeile.split(",");
-              String interpret = temp[0];
-              String titel = temp[1];
-              Song song = new Song(interpret, titel);
-              musiksammlung.add(song);
-          }
-        }
-        catch (IOException e) {
-            System.out.println(error);
-            throw new RuntimeException(e);
-        }
-
     }
 }
