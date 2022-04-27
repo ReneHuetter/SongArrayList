@@ -12,7 +12,12 @@ public class Musiksammlung {
     static ArrayList<Song> musiksammlung = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
 
+    static String path = "C:\\Users\\BBRZ\\IdeaProjects\\SongArrayList\\src\\musiksammlung.txt";
+    static String error = "Es ist ein Fehler aufgetreten.";
+
     public static void main (String [] args) {
+
+        readFile();
 
         while (true) {
             System.out.println("""
@@ -65,7 +70,6 @@ public class Musiksammlung {
     }
 
     private static void writeToFile () {
-        String path = "C:\\Users\\BBRZ\\IdeaProjects\\SongArrayList\\src\\musiksammlung.txt";
         try {
             FileWriter writeDate = new FileWriter(path);
             for (Song song : musiksammlung) {
@@ -74,7 +78,7 @@ public class Musiksammlung {
             writeDate.close();
             System.out.println("Die Datei wurde Erfolgreich erstellt");
         } catch (IOException e) {
-            System.out.println("Es ist ein Fehler aufgetreten.");
+            System.out.println(error);
             e.printStackTrace();
         }
     }
@@ -97,5 +101,24 @@ public class Musiksammlung {
                 System.out.println("Titel: " + titel + "Interpret: " + song.getInterpret());
             }
         }
+    }
+
+    private static void readFile () {
+        try (BufferedReader fileRead = new BufferedReader(new FileReader(path))) {
+          String zeile;
+          while ((zeile = fileRead.readLine()) != null) {
+              zeile = zeile.replace("\n" , "");
+              String[] temp = zeile.split(",");
+              String interpret = temp[0];
+              String titel = temp[1];
+              Song song = new Song(interpret, titel);
+              musiksammlung.add(song);
+          }
+        }
+        catch (IOException e) {
+            System.out.println(error);
+            throw new RuntimeException(e);
+        }
+
     }
 }
