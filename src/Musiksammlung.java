@@ -4,21 +4,23 @@
 *  Version: 01.0
 * */
 
-import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Musiksammlung {
 
+   //Die ArrayList musiksammlung beinhaltet das objekt Song.
     static ArrayList<Song> musiksammlung = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
 
+    // Variable für den Datenpfad wo die Datei gespeichert wird.
     static String path = "C:\\Users\\BBRZ\\IdeaProjects\\SongArrayList\\src\\musiksammlung.txt";
     static String error = "Es ist ein Fehler aufgetreten.";
 
     public static void main (String [] args) {
 
         ReadFile.readFile();
-
+        // state machine für den Programmablauf
         while (true) {
             System.out.println("""
                     Willkommen bei Musiksammlung.
@@ -35,21 +37,23 @@ public class Musiksammlung {
                 case "add" -> addSong();
                 case "remove" -> removeSong();
                 case "show" -> printMusiksammlung();
-                case "save" -> writeToFile();
+                case "save" -> WriteToFile.writeToFile();
                 case "artist" -> searchInterpret();
                 case "titel" -> searchTitel();
                 case "quit" -> System.exit(0);
                 default -> System.out.println("FALSCHE EINGABE");
             }
         }
-
     }
 
     public static void removeSong() {
+        Scanner scanner1 = new Scanner(System.in);
         printMusiksammlung();
         System.out.println("Was für ein Song soll entfernt werden nur Zahl eingeben");
-        int index = scanner.nextInt(-1);
-        musiksammlung.remove(index);
+        int index = scanner1.nextInt();
+        musiksammlung.remove(index -1);
+        System.out.println("Die neue Sammlung:");
+        printMusiksammlung();
     }
 
     public static void printMusiksammlung() {
@@ -67,20 +71,6 @@ public class Musiksammlung {
         Song song = new Song(interpret, titel);
 
         musiksammlung.add(song);
-    }
-
-    private static void writeToFile () {
-        try {
-            FileWriter writeDate = new FileWriter(path);
-            for (Song song : musiksammlung) {
-                writeDate.write(song.getTitel() + "," + song.getInterpret() + "\n");
-            }
-            writeDate.close();
-            System.out.println("Die Datei wurde Erfolgreich erstellt");
-        } catch (IOException e) {
-            System.out.println(error);
-            e.printStackTrace();
-        }
     }
 
     private static void searchInterpret () {
