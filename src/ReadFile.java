@@ -25,8 +25,8 @@ public class ReadFile {
             while ((zeile = fileRead.readLine()) != null) {
                 zeile = zeile.replace("\n" , "");
                 String[] temp = zeile.split(",");
-                String interpret = temp[0];
-                String titel = temp[1];
+                String interpret = temp[1];
+                String titel = temp[0];
                 Song song = new Song(interpret, titel);
                 Musiksammlung.musiksammlung.add(song);
             }

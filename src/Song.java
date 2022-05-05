@@ -34,4 +34,5 @@ public class Song {
     public String getInterpret() {
         return interpret;
     }
+
 }
